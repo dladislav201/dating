@@ -7,14 +7,6 @@ html {
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     background-color: transparent;
-
-    @media only screen and (min-width: 1023px) {
-    --r-nav-height: 52px;
-    }
-
-    @media only screen and (max-width: 1022px) {
-    --r-nav-height: 48px;
-    }
 }
 
 body {
@@ -28,7 +20,8 @@ body {
     font-synthesis: none;
     direction: ltr;
     -webkit-tap-highlight-color: transparent;
-    color: var(--r-main-txt-light-theme-color);
+    background-color: var(--bgPrimary);
+    color: var(--copyPrimary);
 }
 
 body, button, dd, dl, dt, figure, form, h1, h2, h3, h4, h5, h6, input, li, p, ul {
@@ -40,21 +33,6 @@ button, input {
     font-family: var(--font-inter), 'Helvetica', sans-serif;
 }
 
-.body.light-theme {
-    background-color: #fff;
-    color: var(--r-main-txt-light-theme-color);
-}
-
-.body.dark-theme {
-    background-color: #000;
-    color: var(--r-main-txt-dark-theme-color);
-}
-
-.body.soft-dark-theme {
-    background-color: var(--r-calm-dark-bg-color);
-    color: var(--r-main-txt-dark-theme-color);
-}
-
 .main {
     display: block;
     min-height: 100vh;
@@ -63,14 +41,6 @@ button, input {
 a {
     color: inherit;
     text-decoration: none;
-}
-
-.light-theme .footer {
-    background-color: var(--r-calm-grey-bg-color);
-}
-
-.dark-theme .footer {
-    background-color: var(--r-main-txt-light-theme-color);
 }
 
   

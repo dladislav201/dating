@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Inter } from "next/font/google";
 
 import "@/app/styles/global.scss";
+import "@/app/styles/_variables.scss";
 
 const inter = Inter({
   variable: "--font-inter",
