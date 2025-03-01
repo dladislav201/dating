@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const Register = () => {
@@ -37,7 +36,7 @@ const Register = () => {
       console.error("Error during registration:", err);
       setError("An error occurred during registration.");
     } finally {
-      setIsLoading(false); // Завершуємо завантаження
+      setIsLoading(false);
     }
   };
 

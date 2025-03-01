@@ -1,60 +1,47 @@
-// import { GetServerSideProps } from "next";
-// import { useSession, getSession } from "next-auth/react";
-// import { PrismaClient } from "@prisma/client";
+"use client";
 
-// const prisma = new PrismaClient();
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
+import { User } from "@/models";
 
-// type User = {
-//   id: string;
-//   email: string;
-//   name?: string | null;
-//   image?: string | null;
-// };
+const Profile = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const router = useRouter();
 
-// interface ProfileProps {
-//   user: User | null;
-// }
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await fetch("/api/auth/session");
+      const data = await res.json();
 
-// const Profile = ({ user }: ProfileProps) => {
-//   const { data: session } = useSession();
+      if (data.user) {
+        setUser(data.user);
+      } else {
+        router.push("/login");
+      }
+    };
 
-//   if (!session) {
-//     return <div>Please log in to view your profile</div>;
-//   }
+    fetchUser();
+  }, [router]);
 
-//   if (!user) {
-//     return <div>User not found</div>;
-//   }
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    router.push("/login");
+  };
 
-//   return (
-//     <div>
-//       <h1>User Profile</h1>
-//       <p>Email: {user.email}</p>
-//       <p>Name: {user.name}</p>
-//       {user.image && <img src={user.image} alt="User Image" />}
-//     </div>
-//   );
-// };
+  return (
+    <div>
+      <h1>Profile</h1>
+      {user ? (
+        <div>
+          <p>Welcome, {user.email}</p>
+          <button onClick={handleLogout}>Log out</button>
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
+  );
+};
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const session = await getSession(context);
-
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   const user = await prisma.user.findUnique({
-//     where: { email: session.user.email ?? undefined },
-//   });
-
-//   return {
-//     props: { user },
-//   };
-// };
-
-// export default Profile;
+export default Profile;
