@@ -1,0 +1,28 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "eslint:recommended",
+      "prettier",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2020
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "no-empty": ["error", { "allowEmptyCatch": true }],
+      "no-unused-vars": "off",
+      "quotes": ["warn", "single"],
+      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/ban-ts-comment": "off",
+      "jsx-a11y/alt-text": "off"
+    }
+  }
+  
