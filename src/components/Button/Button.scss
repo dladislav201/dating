@@ -1,0 +1,60 @@
+.btn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.14s ease-out;
+  
+    &--primary {
+      background-color: var(--btnPrimary);
+      color: var(--white);
+      border: none;
+  
+      &:hover {
+      }
+    }
+  
+    &--secondary {
+      background-color: var(--btnSecondary);
+      color: var(--copyPrimary);
+      border: none;
+  
+      &:hover {
+      }
+    }
+  
+    &--danger {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+  
+      &:hover {
+        background-color: #c82333;
+      }
+    }
+  
+    &--small {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+  
+    &--medium {
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+  
+    &--large {
+      padding: 14px 28px;
+      font-size: 16px;
+    }
+  
+    &--disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+  }
+  
