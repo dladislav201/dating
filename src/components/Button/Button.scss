@@ -7,6 +7,7 @@
     justify-content: center;
     text-align: center;
     cursor: pointer;
+    border-radius: 32px;
     transition: background-color 0.14s ease-out;
   
     &--primary {
@@ -38,13 +39,15 @@
     }
   
     &--small {
-      padding: 6px 12px;
-      font-size: 12px;
+      padding: 9px 18px;
+      font-size: 16px;
+      letter-spacing: -.022em;
+      font-weight: 300;
     }
   
     &--medium {
       padding: 10px 20px;
-      font-size: 14px;
+      font-size: 16px;
     }
   
     &--large {

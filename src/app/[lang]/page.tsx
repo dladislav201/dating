@@ -1,11 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { Gallery } from "@/components/";
-import { useTranslation } from "@/hooks";
+// import { useTranslation } from "@/hooks";
 
 export default function HomePage() {
-  const t = useTranslation();
+  // const t = useTranslation();
 
   return (
     <main className="main">

@@ -41,31 +41,33 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h1>Register</h1>
-      <form onSubmit={handleRegister}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Registering..." : "Register"}
-        </button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}{" "}
-    </div>
+    <main className="main">
+      <section className="section">
+        <h1>Register</h1>
+        <form onSubmit={handleRegister}>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Registering..." : "Register"}
+          </button>
+        </form>
+        {error && <p style={{ color: "red" }}>{error}</p>}{" "}
+      </section>
+    </main>
   );
 };
 

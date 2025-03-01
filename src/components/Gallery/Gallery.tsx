@@ -57,27 +57,27 @@ export const Gallery = ({ children }: HomeUserGalleryProps) => {
     { axis: "x", eventOptions: { passive: false } }
   );
 
-  const nextSlide = () => {
-    const nextIndex = currentGalleryIndex + 1;
-    const clampedIndex = Math.min(nextIndex, totalItems - 1);
-    goToSlide(clampedIndex);
-  };
+  // const nextSlide = () => {
+  //   const nextIndex = currentGalleryIndex + 1;
+  //   const clampedIndex = Math.min(nextIndex, totalItems - 1);
+  //   goToSlide(clampedIndex);
+  // };
 
-  const prevSlide = () => {
-    const prevIndex = currentGalleryIndex - 1;
-    const clampedIndex = Math.max(prevIndex, 0);
-    goToSlide(clampedIndex);
-  };
+  // const prevSlide = () => {
+  //   const prevIndex = currentGalleryIndex - 1;
+  //   const clampedIndex = Math.max(prevIndex, 0);
+  //   goToSlide(clampedIndex);
+  // };
 
-  const isFirstSlide = currentGalleryIndex === 0;
-  const isLastSlide = currentGalleryIndex === totalItems - 1;
+  // const isFirstSlide = currentGalleryIndex === 0;
+  // const isLastSlide = currentGalleryIndex === totalItems - 1;
 
   return (
     <AnimatedUL
       {...bind()}
       className="gallery"
       style={{
-        transform: x.to((xVal) => `translate3d(${xVal}px, 0, 0)`) as any,
+        transform: x.to((xVal) => `translate3d(${xVal}px, 0, 0)`),
       }}
     >
       {children}

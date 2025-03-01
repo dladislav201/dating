@@ -7,7 +7,10 @@ interface TranslationProviderProps {
   locale: Locale;
 }
 
-function flattenMessages(nestedMessages: Record<string, any>, prefix = "") {
+function flattenMessages(
+  nestedMessages: Record<string, string | Record<string, string>>,
+  prefix = ""
+) {
   if (!nestedMessages) {
     return {};
   }

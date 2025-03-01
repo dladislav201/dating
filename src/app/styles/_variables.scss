@@ -1,5 +1,10 @@
 :root {
-    --r-nav-height: 52px;
+
+    --navHeight: 64px;
+    --navPt: 18px;
+    --navGap: 8px;
+    --sectionPb: 95px;
+    --clientW: 960px;
 
     --white: #fff;
     --ghostWhite: #f1f1fb;
@@ -7,6 +12,7 @@
 
     --bgPrimary: var(--ghostWhite);
     --copyPrimary: var(--eerieBlack);
-    --btnPrimary: var(#2b2e3a);
+    --btnPrimary: #2b2e3a;
     --btnSecondary: #e4e6ef;
+    --senderMsg: #e4e6ef;
 }
