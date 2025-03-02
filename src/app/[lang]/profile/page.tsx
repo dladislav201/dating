@@ -3,28 +3,26 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { User } from "@/models";
+// import { User } from "@/models";
 import { Button } from "@/components/Button/Button";
 
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { useGetSessionUserQuery } from "@/store/apiSlice";
+
 const Profile = () => {
-  const [user, setUser] = useState<User | null>(null);
+  // const [user, setUser] = useState<User | null>(null);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const router = useRouter();
 
+  const currentUser = useSelector((state: RootState) => state.user);
+  const { isLoading } = useGetSessionUserQuery();
+
   useEffect(() => {
-    const fetchUser = async () => {
-      const res = await fetch("/api/auth/session");
-      const data = await res.json();
-
-      if (data.user) {
-        setUser(data.user);
-      } else {
-        router.push("/login");
-      }
-    };
-
-    fetchUser();
-  }, [router]);
+    if (!isLoading && !currentUser.id) {
+      router.push("/login");
+    }
+  }, [currentUser, isLoading, router]);
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
@@ -37,21 +35,21 @@ const Profile = () => {
     <main className="main">
       <section className="section">
         <h1>Profile</h1>
-        {user ? (
-          <div>
-            <p>Welcome, {user.email}</p>
-            <Button
-              onClick={handleLogout}
-              type="primary"
-              size="small"
-              disabled={!user}
-            >
-              {isLoggingOut ? "Logging out..." : "Log out"}
-            </Button>
-          </div>
-        ) : (
-          <p>Loading...</p>
-        )}
+        <div>
+          {currentUser ? (
+            <p>Welcome, {currentUser.email}</p>
+          ) : (
+            <p>No user data available</p>
+          )}
+          <Button
+            onClick={handleLogout}
+            type="primary"
+            size="small"
+            disabled={!currentUser}
+          >
+            {isLoggingOut ? "Logging out..." : "Log out"}
+          </Button>
+        </div>
       </section>
     </main>
   );

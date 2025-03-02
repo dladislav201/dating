@@ -59,37 +59,50 @@ export const Chat = ({ senderId, receiverId }: ChatProps) => {
   };
 
   return (
-    <div className="chat-wrapper">
-      <div className="chat">
-        <div className="chatbox">
+    <div className="chat">
+      <div className="chat__wrapper">
+        <div className="chat__box">
           {messages.map((msg, index) => (
             <p
               key={index}
               className={classNames(
-                "message",
-                msg.senderId === senderId ? "sent" : "received"
+                "chat__message",
+                msg.senderId === senderId
+                  ? "chat__message--sent"
+                  : "chat__message--received"
               )}
             >
               {msg.content}
             </p>
           ))}
         </div>
-        <div className="input-wrapper">
-          <div className="input-island">
+        <div className="chat__input">
+          <div className="chat__input-island">
             <input
               type="text"
               value={newMessage}
-              className="input"
+              className="chat__input-field"
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type a message..."
             />
-            <div className="input-btn-wrapper">
+            <div className="chat__input-btn-wrapper">
               <Button type="primary" size="small" onClick={sendMessage}>
                 Send
               </Button>
             </div>
           </div>
         </div>
+      </div>
+      <div className="chat__curtain">
+        <div className="chat__curtain-blur">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <div className="chat__curtain-gradient"></div>
       </div>
     </div>
   );

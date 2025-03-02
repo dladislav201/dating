@@ -1,13 +1,17 @@
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../authOptions";
 
 export async function GET(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (session) {
-    return new Response(JSON.stringify({ user: session.user }), {
-      status: 200,
-    });
-  } else {
-    return new Response(JSON.stringify({ user: null }), { status: 200 });
+  try {
+    const session = await getServerSession(authOptions);
+    if (session) {
+      return NextResponse.json({ user: session.user }, { status: 200 });
+    } else {
+      return NextResponse.json({ error: "No session found" }, { status: 404 });
+    }
+  } catch(error) {
+    console.error("Error fetching session:", error);
+    return NextResponse.json({ error: "Failed to fetch session" }, { status: 500 });  
   }
 }

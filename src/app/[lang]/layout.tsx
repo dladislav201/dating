@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { TranslationProvider } from "@/i18n/TranslationProvider";
 import { ReactNode } from "react";
 import { Locale } from "@/i18n";
+import { ReduxProvider } from "@/store/provider";
 import { Footer, GlobalNav } from "@/components";
 
 interface LangLayoutProps {
@@ -16,9 +17,11 @@ export default function LangLayout({ children }: LangLayoutProps) {
 
   return (
     <TranslationProvider locale={locale}>
-      <GlobalNav />
-      {children}
-      <Footer />
+      <ReduxProvider>
+        <GlobalNav />
+        {children}
+        <Footer />
+      </ReduxProvider>
     </TranslationProvider>
   );
 }
