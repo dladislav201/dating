@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 
 import "@/app/styles/global.scss";
 import "@/app/styles/_variables.scss";
+import "@/app/styles/blocks/chat.scss";
 
 const inter = Inter({
   variable: "--font-inter",

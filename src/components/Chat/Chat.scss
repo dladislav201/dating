@@ -1,55 +1,87 @@
-.chat {
+.chat-wrapper {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    max-height: 100%;
+    width: 100%;
 
-    .chatbox {
+    .chat {
+        position: relative;
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        justify-content: flex-end;
+        width: 60%;
+        height: 100%;
+        margin: 0 auto;
 
-        .message {
-            width: fit-content;
-            padding: 6px 12px;
-            border-radius: 32px;
-            font-size: 16px;
-            font-weight: 300;
-            letter-spacing: -.022em;
+        .chatbox {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-top: var(--chatInputPb);
+            padding-bottom: calc(var(--chatInputH) + var(--chatInputPb) * 2);
+            overflow: auto;
+            overflow: scroll; 
+            scrollbar-width: none;
 
-            &.sent {
-                margin-left: auto;
-                background-color: var(--senderMsg);
+            &::-webkit-scrollbar {
+                display: none;
             }
 
-            &.received {
-                margin-right: auto;
-                border: 1px solid var(--senderMsg);
+            .message {
+                width: fit-content;
+                padding: 7px 12px;
+                border-radius: 16px;
+                font-size: 16px;
+                font-weight: 300;
+                letter-spacing: -.022em;
+                max-width: 50%;
+                white-space: normal;
+                word-wrap: break-word; 
+                overflow-wrap: break-word;
+
+                &.sent {
+                    margin-left: auto;
+                    background-color: var(--senderMsg);
+                }
+
+                &.received {
+                    margin-right: auto;
+                    border: 1px solid var(--senderMsg);
+                }
             }
         }
-    }
 
-    &__input {
-        display: flex;
-        flex-direction: row;
-        width: 75%;
-        height: 48px;
-        border-radius: 32px;
-        margin: 28px auto 0;
-        background-color: var(--white);
-        border: 1px solid rgba(230,232,236,.66);
-        box-shadow: 0 4px 12px rgba(0,0,0,.04);
-
-        input {
+        .input-wrapper {
+            position: absolute;
+            bottom: 0;
             width: 100%;
-            border: none;
-            outline: none;
-            background-color: transparent;
-            padding-inline: 18px;
-            font-size: 16px;
-            font-weight: 300;
-            letter-spacing: -.022em;
+            padding-bottom: var(--chatInputPb);
         }
 
-        &-btn-wrapper {
+        .input-island {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: var(--chatInputH);
+            border-radius: 32px;
+            background-color: var(--white);
+            border: 1px solid rgba(230,232,236,.66);
+            box-shadow: 0 4px 12px rgba(0,0,0,.04);
+
+            .input {
+                width: 100%;
+                border: none;
+                outline: none;
+                background-color: transparent;
+                padding-inline: 18px;
+                font-size: 16px;
+                font-weight: 300;
+                letter-spacing: -.022em;
+            }
+        }
+
+        .input-btn-wrapper {
             display: flex;
             padding: 8px;
         }

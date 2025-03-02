@@ -1,36 +1,19 @@
-"use client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/authOptions";
+import { UserList } from "@/components/UserList/UserList";
 
-import { useEffect, useState } from "react";
-import { User } from "@/models";
-import Link from "next/link";
+async function UsersPage() {
+  const session = await getServerSession(authOptions);
 
-function UsersPage() {
-  const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const res = await fetch("/api/users");
-      const data = await res.json();
-      setUsers(data);
-    };
-
-    fetchUsers();
-  }, []);
+  if (!session?.user) {
+    return <p>Please log in to see users</p>;
+  }
 
   return (
     <main className="main">
       <section className="section">
         <h1>User List</h1>
-        <ul>
-          {users.map((user) => (
-            <li key={user.id}>
-              <span>{user.email}</span>
-              <Link href={`/chat/${user.id}`}>
-                <button>Start Chat</button>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <UserList userId={session.user.id} />
       </section>
     </main>
   );

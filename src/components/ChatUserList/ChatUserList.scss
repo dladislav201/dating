@@ -1,0 +1,18 @@
+.chat-users {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 15%;
+    width: fit-content;
+    background-color: var(--bgSecondary);
+
+    &__item {
+        display: flex;
+        font-size: 15px;
+
+        &-link {
+            padding: 9px 18px;    
+            width: 100%;
+        }
+    }
+}

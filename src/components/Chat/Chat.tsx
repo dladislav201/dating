@@ -59,39 +59,38 @@ export const Chat = ({ senderId, receiverId }: ChatProps) => {
   };
 
   return (
-    <main className="main">
-      <section className="section">
-        <h2>Chat</h2>
-        <div className="chat">
-          <div className="chatbox">
-            {messages.map((msg, index) => (
-              <p
-                key={index}
-                className={classNames(
-                  "message",
-                  msg.senderId === senderId ? "sent" : "received"
-                )}
-              >
-                {msg.content}
-              </p>
-            ))}
-          </div>
-          <div className="chat__input">
+    <div className="chat-wrapper">
+      <div className="chat">
+        <div className="chatbox">
+          {messages.map((msg, index) => (
+            <p
+              key={index}
+              className={classNames(
+                "message",
+                msg.senderId === senderId ? "sent" : "received"
+              )}
+            >
+              {msg.content}
+            </p>
+          ))}
+        </div>
+        <div className="input-wrapper">
+          <div className="input-island">
             <input
               type="text"
               value={newMessage}
-              className="chatinput"
+              className="input"
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type a message..."
             />
-            <div className="chat__input-btn-wrapper">
+            <div className="input-btn-wrapper">
               <Button type="primary" size="small" onClick={sendMessage}>
                 Send
               </Button>
             </div>
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 };

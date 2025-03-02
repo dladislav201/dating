@@ -35,14 +35,18 @@ button, input {
 
 .main {
     display: block;
-    min-height: 100vh;
-    padding-top: calc(var(--navHeight) + var(--navPt));
+    // min-height: 100vh;
+    // padding-top: calc(var(--navHeight) + var(--navPt));
 }
 
 .section {
-    width: var(--clientW);
-    margin: 0 auto;
-    padding-block: var(--sectionPb);
+    // width: var(--clientW);
+    // margin: 0 auto;
+    // padding-block: var(--sectionPb);
+
+    &--fixed {
+        height: calc(100vh - var(--navHeight));
+    }
 }
 
 a {
