@@ -7,24 +7,26 @@ interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
   href?: string;
-  type: "primary" | "secondary" | "danger";
+  variant: "primary" | "secondary" | "danger";
   size: "small" | "medium" | "large";
   disabled?: boolean;
   className?: string;
+  type?: "button" | "submit" | "reset";
 }
 
 export const Button = ({
   children,
   onClick,
   href,
-  type = "primary",
+  variant = "primary",
   size = "medium",
   disabled = false,
   className,
+  type = "button",
 }: ButtonProps) => {
   const buttonClass = classNames(
     "btn",
-    `btn--${type}`,
+    `btn--${variant}`,
     `btn--${size}`,
     className,
     { "btn--disabled": disabled }
@@ -39,7 +41,12 @@ export const Button = ({
   }
 
   return (
-    <button className={buttonClass} onClick={onClick} disabled={disabled}>
+    <button
+      className={buttonClass}
+      onClick={onClick}
+      disabled={disabled}
+      type={type}
+    >
       {children}
     </button>
   );

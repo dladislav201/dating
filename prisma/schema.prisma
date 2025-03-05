@@ -8,23 +8,24 @@ generator client {
 }
 
 model User {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  email    String   @unique
-  password String
-  name     String?
-  image    String?
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  password  String
+  nickName  String   @unique
+  name      String?
+  image     String?
   messagesSent Message[] @relation("SentMessages")
   messagesReceived Message[] @relation("ReceivedMessages")
 }
 
 model Message {
-  id        String   @id @default(uuid()) @map("_id")
-  senderId  String
+  id         String   @id @default(uuid()) @map("_id")
+  senderId   String
   receiverId String
-  content   String
-  createdAt DateTime @default(now())
+  content    String
+  createdAt  DateTime @default(now())
 
-  sender   User @relation("SentMessages", fields: [senderId], references: [id])
-  receiver User @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  sender     User @relation("SentMessages", fields: [senderId], references: [id])
+  receiver   User @relation("ReceivedMessages", fields: [receiverId], references: [id])
 }
 

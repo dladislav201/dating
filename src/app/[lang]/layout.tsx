@@ -6,6 +6,7 @@ import { ReactNode } from "react";
 import { Locale } from "@/i18n";
 import { ReduxProvider } from "@/store/provider";
 import { Footer, GlobalNav } from "@/components";
+import { SessionProvider } from "next-auth/react";
 
 interface LangLayoutProps {
   children: ReactNode;
@@ -18,9 +19,11 @@ export default function LangLayout({ children }: LangLayoutProps) {
   return (
     <TranslationProvider locale={locale}>
       <ReduxProvider>
-        <GlobalNav />
-        {children}
-        <Footer />
+        <SessionProvider>
+          <GlobalNav />
+          {children}
+          <Footer />
+        </SessionProvider>
       </ReduxProvider>
     </TranslationProvider>
   );

@@ -1,16 +1,23 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { apiSlice } from "./apiSlice";
-import userReducer from "./userSlice";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { sessionService, usersChatsService, usersService } from "@/services";
+import userReducer from "./reducers/userSlice";
 
-export const store = configureStore({
-  reducer: {
-    user: userReducer,
-    [apiSlice.reducerPath]: apiSlice.reducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
-  devTools: process.env.NODE_ENV !== 'production',
+const rootReducer = combineReducers({
+  userReducer,
+  [sessionService.reducerPath]: sessionService.reducer,
+  [usersChatsService.reducerPath]: usersChatsService.reducer,
+  [usersService.reducerPath]: usersService.reducer,
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(
+      sessionService.middleware,
+      usersChatsService.middleware,
+      usersService.middleware
+    ),
+});
+
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;

@@ -1,31 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { User } from "@/models";
+import { useGetUsersQuery } from "@/services";
 import Link from "next/link";
 
-interface UserListProps {
-  userId: string;
-}
+export const UserList = () => {
+  const { data: users, isLoading, error } = useGetUsersQuery();
 
-export const UserList = ({ userId }: UserListProps) => {
-  const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const res = await fetch(`/api/users/all/${userId}`);
-      const data = await res.json();
-      setUsers(data);
-    };
-
-    fetchUsers();
-  }, [userId]);
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading users</p>;
 
   return (
     <ul>
-      {users.map((user) => (
+      {users?.map((user) => (
         <li key={user.id}>
-          <span>{user.email}</span>
+          <span>{user.nickName}</span>
           <Link href={`/chat/${user.id}`}>
             <button>Start Chat</button>
           </Link>

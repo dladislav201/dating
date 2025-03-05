@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { validatePassword, validateEmail } from "@/utils";
 
 const Register = () => {
   const [email, setEmail] = useState("");
+  const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -14,13 +16,27 @@ const Register = () => {
     e.preventDefault();
     setIsLoading(true);
 
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setError(
+        "Password must be at least 6 characters long, contain one uppercase letter and one special character."
+      );
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, nickName, password }),
       });
 
       const data = await response.json();
@@ -51,6 +67,14 @@ const Register = () => {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            name="nickname"
+            placeholder="@nickname"
+            value={nickName}
+            onChange={(e) => setNickName(e.target.value)}
             required
           />
           <input

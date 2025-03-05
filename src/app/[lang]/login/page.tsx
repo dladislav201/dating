@@ -4,27 +4,22 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "@/store/userSlice";
-import { RootState } from "@/store/store";
+import { useGetSessionQuery } from "@/services";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLogginLoading, setIsLogginLoading] = useState(false);
+  const { data, isLoading, refetch } = useGetSessionQuery();
+  const user = data?.user || null;
   const router = useRouter();
-  const dispatch = useDispatch();
 
-  // Отримуємо поточного юзера зі стору
-  const currentUser = useSelector((state: RootState) => state.user);
-
-  // Якщо юзер вже залогінений → переадресація на /profile
   useEffect(() => {
-    if (currentUser.id) {
+    if (user) {
       router.push("/profile");
     }
-  }, [currentUser, router]);
+  }, [user]);
 
   const handleLogin = async (
     email: string,
@@ -32,7 +27,7 @@ const Login = () => {
     e: React.FormEvent
   ) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsLogginLoading(true);
     setError(null);
 
     const result = await signIn("credentials", {
@@ -41,22 +36,14 @@ const Login = () => {
       password,
     });
 
-    setIsLoading(false);
+    refetch();
+    setIsLogginLoading(false);
 
     if (result?.error) {
       console.error("Login failed", result.error);
       setError(result.error);
     } else {
-      const sessionRes = await fetch("/api/auth/session");
-      const session = await sessionRes.json();
-
-      if (session?.user) {
-        dispatch(setUser({ id: session.user.id, email: session.user.email }));
-        console.log(session.user.id, session.user.email);
-        // router.push("/profile");
-      } else {
-        setError("No session found after login");
-      }
+      router.push("/profile");
     }
   };
 
@@ -86,7 +73,7 @@ const Login = () => {
             required
           />
           <button type="submit">
-            {isLoading ? "Logging In..." : "Log In"}
+            {isLogginLoading ? "Logging In..." : "Log In"}
           </button>
         </form>
         {error && <p style={{ color: "red" }}>{error}</p>}

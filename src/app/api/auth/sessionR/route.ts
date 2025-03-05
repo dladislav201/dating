@@ -8,7 +8,8 @@ export async function GET(req: Request) {
     if (session) {
       return NextResponse.json({ user: session.user }, { status: 200 });
     } else {
-      return NextResponse.json({ error: "No session found" }, { status: 404 });
+      return NextResponse.json({ user: null }, { status: 200 });
+
     }
   } catch(error) {
     console.error("Error fetching session:", error);

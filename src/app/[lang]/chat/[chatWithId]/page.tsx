@@ -17,7 +17,7 @@ export default async function ChatPage({
     <main className="main">
       <section className="section section--fixed">
         <div className="chat-container">
-          <ChatUserList userId={session.user.id} />
+          <ChatUserList />
           <Chat senderId={session.user.id} receiverId={params.chatWithId} />
         </div>
       </section>

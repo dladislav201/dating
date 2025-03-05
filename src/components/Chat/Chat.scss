@@ -22,7 +22,6 @@
         padding-top: var(--chatInputPb);
         padding-bottom: calc(var(--chatInputH) + var(--chatInputPb) * 2);
         overflow: auto;
-        overflow: scroll; 
         scrollbar-width: none;
 
         &::-webkit-scrollbar {
@@ -30,17 +29,32 @@
         }
     }
 
+    &__date {
+      text-align: center;
+      padding-block: 16px;
+
+      &-value {
+        font-size: 14px;
+        font-weight: 300;
+        letter-spacing: -.022em;
+        color: var(--copySecondary);
+      }
+    }
+
     &__message {
+      display: flex;
+      flex-direction: row;
         width: fit-content;
         padding: 8px 14px;
         border-radius: 18px;
-        font-size: 16px;
-        font-weight: 300;
-        letter-spacing: -.022em;
         max-width: 50%;
-        white-space: normal;
+        white-space: pre-wrap;
+        word-break: break-word;
         word-wrap: break-word; 
         overflow-wrap: break-word;
+        overflow: clip;
+        text-align: initial;
+        unicode-bidi: plaintext;
 
         &--sent {
             margin-left: auto;
@@ -49,7 +63,23 @@
 
         &--received {
             margin-right: auto;
-            outline: 1px solid var(--senderMsg);
+            border: 1px solid var(--senderMsg);
+        }
+
+        &-value {
+          font-size: 16px;
+          font-weight: 300;
+          letter-spacing: -.022em;
+        }
+
+        &-time {
+          font-size: 11px;
+          font-weight: 300;
+          letter-spacing: -.022em;
+          padding-left: 12px;
+          margin-top: auto;
+          color: var(--copySecondary);
+          white-space: nowrap;
         }
     }
 
@@ -64,7 +94,8 @@
             display: flex;
             flex-direction: row;
             width: 100%;
-            height: var(--chatInputH);
+            // min-height: var(--chatInputH);
+            height: fit-content;
             border-radius: 32px;
             background-color: var(--white);
             border: 1px solid rgba(230,232,236,.66);
@@ -76,10 +107,14 @@
             border: none;
             outline: none;
             background-color: transparent;
-            padding-inline: 18px;
+            padding: 9px 18px;
             font-size: 16px;
             font-weight: 300;
             letter-spacing: -.022em;
+            font-family: var(--font-inter), "Helvetica", sans-serif;
+            white-space: pre-wrap;
+            overflow-y: hidden;
+            resize: none;
         }
 
         &-btn-wrapper {

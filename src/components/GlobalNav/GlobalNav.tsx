@@ -23,7 +23,7 @@ export const GlobalNav = () => {
                 </Link>
               </li>
             </ul>
-            <Button href="/login" type="primary" size="small">
+            <Button href="/login" variant="primary" size="small">
               log In
             </Button>
           </div>

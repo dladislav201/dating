@@ -3,49 +3,45 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
-// import { User } from "@/models";
 import { Button } from "@/components/Button/Button";
-
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { useGetSessionUserQuery } from "@/store/apiSlice";
+import { useGetSessionQuery } from "@/services";
+import { Userbox } from "@/components";
 
 const Profile = () => {
-  // const [user, setUser] = useState<User | null>(null);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const { data, isLoading, refetch } = useGetSessionQuery();
+  const user = data?.user || null;
   const router = useRouter();
 
-  const currentUser = useSelector((state: RootState) => state.user);
-  const { isLoading } = useGetSessionUserQuery();
-
   useEffect(() => {
-    if (!isLoading && !currentUser.id) {
+    if (!isLoading && data && !user?.id) {
       router.push("/login");
     }
-  }, [currentUser, isLoading, router]);
+  }, [user, data, isLoading]);
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
     await signOut({ redirect: false });
+    refetch();
     setIsLoggingOut(false);
     router.push("/login");
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <main className="main">
       <section className="section">
         <h1>Profile</h1>
         <div>
-          {currentUser ? (
-            <p>Welcome, {currentUser.email}</p>
-          ) : (
-            <p>No user data available</p>
-          )}
+          {user ? <Userbox user={user} /> : <p>No user data available</p>}
           <Button
             onClick={handleLogout}
-            type="primary"
+            variant="primary"
             size="small"
-            disabled={!currentUser}
+            disabled={!user}
           >
             {isLoggingOut ? "Logging out..." : "Log out"}
           </Button>
