@@ -18,6 +18,7 @@ interface ChatProps {
 export const Chat = ({ senderId, receiverId }: ChatProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
+  const [image, setImage] = useState<File | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const handleInput = () => {
@@ -49,9 +50,9 @@ export const Chat = ({ senderId, receiverId }: ChatProps) => {
 
     // listen new msg WebSocket
     socket.on("receiveMessage", (message) => {
-      console.log(message);
       setMessages((prev) => [...prev, message]);
       setNewMessage("");
+      setImage(null);
     });
 
     return () => {
@@ -60,14 +61,37 @@ export const Chat = ({ senderId, receiverId }: ChatProps) => {
   }, [senderId, receiverId]);
 
   const sendMessage = async () => {
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim() && !image) return;
 
     const messageData = {
       senderId,
       receiverId,
       content: newMessage,
       createdAt: new Date().toISOString(),
+      imgUrl: "",
     };
+
+    if (image) {
+      const formData = new FormData();
+      formData.append("file", image);
+
+      const uploadRes = await fetch(
+        "http://localhost:3001/api/messages/img/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!uploadRes.ok) {
+        const errorData = await uploadRes.json();
+        console.error(errorData.error);
+        return;
+      }
+
+      const uploadData = await uploadRes.json();
+      messageData.imgUrl = uploadData.imgUrl;
+    }
 
     // send msg by WebSocket
     socket.emit("sendMessage", messageData);
@@ -78,6 +102,15 @@ export const Chat = ({ senderId, receiverId }: ChatProps) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(messageData),
     });
+
+    setNewMessage("");
+    setImage(null);
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImage(e.target.files[0]);
+    }
   };
 
   return (
@@ -99,19 +132,33 @@ export const Chat = ({ senderId, receiverId }: ChatProps) => {
                     </p>
                   </div>
                 )}
-                <div
-                  className={classNames(
-                    "chat__message",
-                    msg.senderId === senderId
-                      ? "chat__message--sent"
-                      : "chat__message--received"
-                  )}
-                >
-                  <p className="chat__message-value">{msg.content}</p>
-                  <p className="chat__message-time">
-                    {formatTime(msg.createdAt)}
-                  </p>
-                </div>
+                {msg.content && (
+                  <div
+                    className={classNames(
+                      "chat__message",
+                      msg.senderId === senderId
+                        ? "chat__message--sent"
+                        : "chat__message--received"
+                    )}
+                  >
+                    <p className="chat__message-value">{msg.content}</p>
+                    <p className="chat__message-time">
+                      {formatTime(msg.createdAt)}
+                    </p>
+                  </div>
+                )}
+                {msg.imgUrl && (
+                  <div
+                    className={classNames(
+                      "chat__message-image",
+                      msg.senderId === senderId
+                        ? "chat__message-image--sent"
+                        : "chat__message-image--received"
+                    )}
+                  >
+                    <img src={msg.imgUrl} alt="message-image" />
+                  </div>
+                )}
               </div>
             );
           })}
@@ -132,6 +179,12 @@ export const Chat = ({ senderId, receiverId }: ChatProps) => {
               }}
               onChange={(e) => setNewMessage(e.target.value)}
             ></textarea>
+            <input
+              type="file"
+              accept="image/*"
+              className="chat__input-file"
+              onChange={handleImageChange}
+            />
             <div className="chat__input-btn-wrapper">
               <Button variant="primary" size="small" onClick={sendMessage}>
                 Send

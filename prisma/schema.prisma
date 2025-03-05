@@ -24,6 +24,7 @@ model Message {
   receiverId String
   content    String
   createdAt  DateTime @default(now())
+  imgUrl     String?
 
   sender     User @relation("SentMessages", fields: [senderId], references: [id])
   receiver   User @relation("ReceivedMessages", fields: [receiverId], references: [id])

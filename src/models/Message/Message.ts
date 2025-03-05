@@ -4,4 +4,5 @@ export interface Message {
     receiverId: string;
     content: string;
     createdAt: string;
+    imgUrl: string;
 }
